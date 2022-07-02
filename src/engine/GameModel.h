@@ -23,8 +23,7 @@ public:
 	// ¬ектор с указател€ми на платформы
 	vector<Platform*> platforms;
 
-	// ћетод, обновл€ющий позицию камеры
-	void updateCamera();
+	void update();
 
 
 protected:
@@ -35,5 +34,10 @@ protected:
 	const int PLATFORMS_COUNT = 8;
 
 	void initGameObjects();
+
+	// ћетод, обновл€ющий позицию камеры
+	void updateCamera();
+
+	void checkPlatformsPositions();
 
 };

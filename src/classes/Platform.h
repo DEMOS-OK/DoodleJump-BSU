@@ -22,6 +22,7 @@ public:
 
 	void update();
 	void setSpeedY(float speedY);
+	void setPosition(float posX, float posY);
 
 protected:
 	// Позиция платформы
@@ -42,7 +43,6 @@ protected:
 
 	void initProperties();
 	void initSprite();
-	void initPosition(float posX, float posY);
 
 	void move();
 

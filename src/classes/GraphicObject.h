@@ -24,6 +24,6 @@ public:
 
 protected:
 	void virtual initSprite() = 0;
-	void virtual initPosition(float posX, float posY) = 0;
+	void virtual setPosition(float posX, float posY) = 0;
 
 };

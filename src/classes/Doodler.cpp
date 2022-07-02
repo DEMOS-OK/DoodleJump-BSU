@@ -12,7 +12,7 @@ Doodler::Doodler()
 {
 	this->initProperties();
 	this->initSprite();
-	this->initPosition(660, 100);
+	this->setPosition(660, 100);
 }
 
 /// <summary>
@@ -51,7 +51,7 @@ void Doodler::initSprite()
 /// <summary>
 /// Инициализация позиции дудлера
 /// </summary>
-void Doodler::initPosition(float posX, float posY)
+void Doodler::setPosition(float posX, float posY)
 {
 	position.x = posX;
 	position.y = posY;
@@ -203,7 +203,7 @@ bool Doodler::checkCollisions(Platform *platform)
 void Doodler::jump(Platform *platform)
 {
 	position.y = platform->top() - 1 - texture.getSize().y * scaleY;
-	this->speedY = -10;
+	this->speedY = -9;
 }
 
 /// <summary>

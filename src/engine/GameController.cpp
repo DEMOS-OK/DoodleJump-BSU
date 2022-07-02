@@ -69,5 +69,5 @@ void GameController::checkDoodlerEvents()
 void GameController::update()
 {
     model->doodler.update(&model->platforms);
-    model->updateCamera();
+    model->update();
 }

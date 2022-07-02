@@ -8,7 +8,7 @@ Platform::Platform(float posX, float posY)
 {
 	this->initProperties();
 	this->initSprite();
-	this->initPosition(posX, posY);
+	this->setPosition(posX, posY);
 }
 
 /// <summary>
@@ -40,7 +40,7 @@ void Platform::initSprite()
 /// <summary>
 /// Инициализация позиции
 /// </summary>
-void Platform::initPosition(float posX, float posY)
+void Platform::setPosition(float posX, float posY)
 {
 	position.x = posX;
 	position.y = posY;
