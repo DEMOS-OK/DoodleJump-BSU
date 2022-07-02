@@ -65,6 +65,16 @@ Texture Platform::getTexture()
 	return texture;
 }
 
+float Platform::width()
+{
+	return texture.getSize().x * scaleX;
+}
+
+float Platform::height()
+{
+	return texture.getSize().y * scaleY;
+}
+
 float Platform::top()
 {
 	return position.y;
@@ -72,7 +82,7 @@ float Platform::top()
 
 float Platform::right()
 {
-	return position.x + (texture.getSize().x * scaleX);
+	return position.x + this->width();
 }
 
 float Platform::left()
@@ -82,7 +92,7 @@ float Platform::left()
 
 float Platform::bottom()
 {
-	return position.y + (texture.getSize().y * scaleY);
+	return position.y + this->height();
 }
 
 void Platform::update()

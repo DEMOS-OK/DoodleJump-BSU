@@ -20,6 +20,9 @@ public:
 	float left();
 	float bottom();
 
+	float width();
+	float height();
+
 	void update();
 	void setSpeedY(float speedY);
 	void setPosition(float posX, float posY);

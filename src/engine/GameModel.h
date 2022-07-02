@@ -34,10 +34,14 @@ protected:
 	const int PLATFORMS_COUNT = 8;
 
 	void initGameObjects();
+	void initPlatformsFreePositions();
 
 	// ћетод, обновл€ющий позицию камеры
 	void updateCamera();
 
 	void checkPlatformsPositions();
+
+	vector<int> platformsFreePositionsX;
+	vector<int> platformsFreePositionsY;
 
 };

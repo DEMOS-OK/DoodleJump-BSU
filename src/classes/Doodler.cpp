@@ -203,7 +203,7 @@ bool Doodler::checkCollisions(Platform *platform)
 void Doodler::jump(Platform *platform)
 {
 	position.y = platform->top() - 1 - texture.getSize().y * scaleY;
-	this->speedY = -9;
+	this->speedY = -7;
 }
 
 /// <summary>
