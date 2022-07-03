@@ -41,25 +41,35 @@ void GameModel::initGameObjects()
 	}
 }
 
+/// <summary>
+/// Следит за игровыми объектами
+/// </summary>
 void GameModel::update()
 {
 	this->updateCamera();
 	this->checkPlatformsPositions();
+	this->checkDoodlerPosition();
 }
 
 
+/// <summary>
+/// Обновляет положение камеры
+/// </summary>
 void GameModel::updateCamera()
 {
 	float doodlerSpeedY = this->doodler.getSpeedY();
 
-	if (doodlerSpeedY < 0 && (this->doodler.bottom() < this->config->getScreenHeight() * 0.5)) {
+	if ((doodlerSpeedY < 0 && (this->doodler.bottom() < this->config->getScreenHeight() * 0.5))) {
 		for (auto platform : this->platforms) {
-			platform->setSpeedY(doodlerSpeedY*3);
+			platform->setSpeedY(doodlerSpeedY*2);
 			platform->update();
 		}
 	}
 }
 
+/// <summary>
+/// Проверяет позиции платформ, меняет позицию, если платформа ушла вниз
+/// </summary>
 void GameModel::checkPlatformsPositions()
 {
 	for (auto platform : this->platforms) {
@@ -69,4 +79,15 @@ void GameModel::checkPlatformsPositions()
 			platform->setPosition(posX, posY);
 		}
 	}
+}
+
+/// <summary>
+/// Проверяет позицию дудлера (выходы за границы)
+/// </summary>
+void GameModel::checkDoodlerPosition()
+{
+	if (this->doodler.right() < 0)
+		this->doodler.setPosition(this->config->getScreenWidth() - this->doodler.width(), this->doodler.getSprite().getPosition().y);
+	else if (this->doodler.left() > this->config->getScreenWidth())
+		this->doodler.setPosition(0, this->doodler.getSprite().getPosition().y);
 }

@@ -20,8 +20,8 @@ Doodler::Doodler()
 /// </summary>
 void Doodler::initProperties()
 {
-	scaleX = 0.7;
-	scaleY = 0.7;
+	scaleX = 0.9;
+	scaleY = 0.9;
 
 	rightPressed = false;
 	leftPressed = false;
@@ -32,7 +32,9 @@ void Doodler::initProperties()
 	directionLeft = true;
 	directionRight = false;
 
-	gravitySpeedUp = 0.15;
+	gravitySpeedUp = 0.25;
+
+	onJumpSpeedY = -10;
 }
 
 /// <summary>
@@ -72,17 +74,13 @@ Sprite Doodler::getSprite()
 /// </summary>
 void Doodler::update(vector<Platform*>* platforms)
 {
-	auto fallStatus = 1;
 	for (size_t i = 0; i < platforms->size(); i++) {
 		if (this->checkCollisions((*platforms)[i]) && this->checkFallDirection()) {
-			fallStatus = 0;
 			this->jump((*platforms)[i]);
 		}
 	}
 
-	if (fallStatus)
-		this->move();
-
+	this->move();
 	sprite.setPosition(position);
 }
 
@@ -116,8 +114,12 @@ void Doodler::moveRight()
 /// </summary>
 void Doodler::changeDirectionRight()
 {
-	if (!directionRight) {
+	if (jumpImg || !directionRight) {
 		texture.loadFromFile("data/doodler-right.png");
+		jumpImg = false;
+	}
+
+	if (!directionRight) {
 		directionRight = true;
 		directionLeft = false;
 	}
@@ -145,8 +147,11 @@ void Doodler::moveLeft()
 /// </summary>
 void Doodler::changeDirectionLeft()
 {
-	if (!directionLeft) {
+	if (jumpImg || !directionLeft) {
 		texture.loadFromFile("data/doodler-left.png");
+		jumpImg = false;
+	}
+	if (!directionLeft) {
 		directionRight = false;
 		directionLeft = true;
 	}
@@ -179,6 +184,11 @@ float Doodler::left()
 	return position.x;
 }
 
+float Doodler::width()
+{
+	return texture.getSize().x * scaleX;
+}
+
 float Doodler::getSpeedY()
 {
 	return this->speedY;
@@ -202,8 +212,14 @@ bool Doodler::checkCollisions(Platform *platform)
 /// <param name="platform"></param>
 void Doodler::jump(Platform *platform)
 {
+	if (directionLeft)
+		texture.loadFromFile("data/doodler-left-jump.png");
+	else
+		texture.loadFromFile("data/doodler-right-jump.png");
+
+	jumpImg = true;
 	position.y = platform->top() - 1 - texture.getSize().y * scaleY;
-	this->speedY = -7;
+	this->speedY = this->onJumpSpeedY;
 }
 
 /// <summary>

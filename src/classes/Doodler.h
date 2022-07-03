@@ -26,6 +26,8 @@ public:
 	float right();
 	float left();
 
+	float width();
+
 	float getSpeedY();
 
 	// Скорость перемещения по Y
@@ -59,11 +61,17 @@ protected:
 	// Флаг направления движения влево
 	bool directionLeft;
 
+	// Флаг, что у дудлера сейчас изображение в прыжке
+	bool jumpImg;
+
 	// Скорость перемещения по X
 	float speedX;
 
 	// Ускорение свободного падения
 	float gravitySpeedUp;
+
+	// Скорость дудлера при прыжке
+	float onJumpSpeedY;
 
 	void move();
 	void changeDirectionLeft();

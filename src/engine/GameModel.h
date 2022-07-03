@@ -41,6 +41,8 @@ protected:
 
 	void checkPlatformsPositions();
 
+	void checkDoodlerPosition();
+
 	vector<int> platformsFreePositionsX;
 	vector<int> platformsFreePositionsY;
 
