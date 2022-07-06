@@ -6,6 +6,8 @@
 #include "GameConfig.h";
 #include "../classes/Doodler.h";
 #include "../classes/Platform.h";
+#include "../classes/Label.h";
+#include "../classes/ImageButton.h";
 
 using std::vector;
 using namespace sf;
@@ -18,18 +20,26 @@ class GameView
 
 public:
 	GameView(GameConfig *config);
-	void render(Doodler *doodler, vector<Platform*>* platforms);
+	void renderGame(Doodler *doodler, vector<Platform*>* platforms, int score);
+	void renderMenu();
 	RenderWindow& getWindow();
+
+	ImageButton* getPlayBtn();
 
 private:
 	GameConfig* config;
 	RenderWindow window;
 
-	Sprite backgroundSprite;
-	Texture backgroundTexture;
+	Sprite backgroundGameSprite;
+	Texture backgroundGameTexture;
+
+	Sprite backgroundMenuSprite;
+	Texture backgroundMenuTexture;
+
+	ImageButton* playBtn;
 
 	void initScreenSettings();
-	void initBackground();
-
-
+	void initGameBackground();
+	void initMenuBackground();
+	void initMenuButtons();
 };

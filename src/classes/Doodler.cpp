@@ -12,7 +12,6 @@ Doodler::Doodler()
 {
 	this->initProperties();
 	this->initSprite();
-	this->setPosition(660, 100);
 }
 
 /// <summary>
@@ -35,6 +34,8 @@ void Doodler::initProperties()
 	gravitySpeedUp = 0.25;
 
 	onJumpSpeedY = -10;
+
+	this->setPosition(660, 100);
 }
 
 /// <summary>
@@ -67,6 +68,11 @@ void Doodler::setPosition(float posX, float posY)
 Sprite Doodler::getSprite()
 {
 	return sprite;
+}
+
+Texture Doodler::getTexture()
+{
+	return texture;
 }
 
 /// <summary>
@@ -184,9 +190,19 @@ float Doodler::left()
 	return position.x;
 }
 
+float Doodler::top()
+{
+	return position.y;
+}
+
 float Doodler::width()
 {
 	return texture.getSize().x * scaleX;
+}
+
+float Doodler::height()
+{
+	return texture.getSize().y * scaleY;
 }
 
 float Doodler::getSpeedY()

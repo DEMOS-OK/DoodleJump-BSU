@@ -21,7 +21,9 @@ private:
 	// ћодель игры, содержит в себе логику работы игры
 	GameModel* model;
 
-	void checkEvents();
+	void checkGlobalEvents();
+	void checkGameEvents();
+	void checkMenuEvents();
 	void checkDoodlerEvents();
 	void update();
 

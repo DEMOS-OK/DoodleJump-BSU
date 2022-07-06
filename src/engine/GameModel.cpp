@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "GameModel.h";
 #include "../engine/helpers.h";
 
@@ -8,18 +10,33 @@
 GameModel::GameModel(GameConfig* config)
 {
 	this->config = config;
+}
+
+/// <summary>
+/// Инициализирует изначальные параметры игры
+/// </summary>
+void GameModel::initGame()
+{
+	score = 0;
+	gameStatus = 1;
+	doodler.initProperties();
 
 	this->initPlatformsFreePositions();
 	this->initGameObjects();
 }
 
+/// <summary>
+/// Инициализирует свободные позиции платформ
+/// </summary>
 void GameModel::initPlatformsFreePositions()
 {
 	Platform platform(0, 0);
 
+	this->platformsFreePositionsX.clear();
 	for (int pos = 0; pos < this->config->getScreenWidth() - platform.width(); pos += platform.width() + 20)
 		this->platformsFreePositionsX.push_back(pos);
 
+	this->platformsFreePositionsY.clear();
 	for (int pos = 0; pos < this->config->getScreenHeight() - platform.height(); pos += platform.height()*2)
 		this->platformsFreePositionsY.push_back(pos);
 
@@ -30,12 +47,21 @@ void GameModel::initPlatformsFreePositions()
 /// </summary>
 void GameModel::initGameObjects()
 {
+	this->platforms.clear();
 	for (short i = 0; i < PLATFORMS_COUNT; i++) {
+
+		// Получаем случайные индексы позиции платформы по X и Y 
 		short posXIndex = helpers::randint(0, this->platformsFreePositionsX.size() - 1);
 		short posYIndex = helpers::randint(0, this->platformsFreePositionsY.size() - 1);
+
+		// Выбираем позицию с этими индексами
 		float posX = this->platformsFreePositionsX.at(posXIndex);
 		float posY = this->platformsFreePositionsY.at(posYIndex);
+
+		// Создаём платформу с этой позицией
 		this->platforms.push_back(new Platform(posX, posY));
+
+		// Место считаем занятым
 		this->platformsFreePositionsX.erase(this->platformsFreePositionsX.begin() + posXIndex);
 		this->platformsFreePositionsY.erase(this->platformsFreePositionsY.begin() + posYIndex);
 	}
@@ -46,11 +72,20 @@ void GameModel::initGameObjects()
 /// </summary>
 void GameModel::update()
 {
+	this->doodler.update(&this->platforms);
 	this->updateCamera();
 	this->checkPlatformsPositions();
 	this->checkDoodlerPosition();
 }
 
+/// <summary>
+/// Возвращает значение игрового счёта
+/// </summary>
+/// <returns></returns>
+int GameModel::getScore()
+{
+	return this->score;
+}
 
 /// <summary>
 /// Обновляет положение камеры
@@ -63,6 +98,7 @@ void GameModel::updateCamera()
 		for (auto platform : this->platforms) {
 			platform->setSpeedY(doodlerSpeedY*2);
 			platform->update();
+			score++;
 		}
 	}
 }
@@ -90,4 +126,7 @@ void GameModel::checkDoodlerPosition()
 		this->doodler.setPosition(this->config->getScreenWidth() - this->doodler.width(), this->doodler.getSprite().getPosition().y);
 	else if (this->doodler.left() > this->config->getScreenWidth())
 		this->doodler.setPosition(0, this->doodler.getSprite().getPosition().y);
+
+	if (this->doodler.top() > this->config->getScreenHeight())
+		this->gameStatus = 0;
 }

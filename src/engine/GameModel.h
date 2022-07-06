@@ -23,8 +23,13 @@ public:
 	// Вектор с указателями на платформы
 	vector<Platform*> platforms;
 
+	void initGame();
+
 	void update();
 
+	int getScore();
+
+	bool gameStatus = 0;
 
 protected:
 	
@@ -32,6 +37,7 @@ protected:
 	GameConfig* config;
 
 	const int PLATFORMS_COUNT = 8;
+	int score;
 
 	void initGameObjects();
 	void initPlatformsFreePositions();

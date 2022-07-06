@@ -22,26 +22,55 @@ void GameController::run()
     // Запуск основного цикла приложения
     while (view->getWindow().isOpen())
     {
-        this->checkEvents(); // Слушание и обработка событий
+        this->checkGlobalEvents(); // Слушание и обработка событий
 
-        this->update();
-        view->render(&model->doodler, &model->platforms); // Отрисовка приложения
+        if (model->gameStatus) {
+            this->checkGameEvents();
+            this->update();
+            view->renderGame(&model->doodler, &model->platforms, model->getScore()); // Отрисовка приложения
+        } else {
+            this->checkMenuEvents();
+            view->renderMenu();
+        }
+
     }
 }
 
 /// <summary>
 /// Проверяет все события
 /// </summary>
-void GameController::checkEvents()
+void GameController::checkGlobalEvents()
 {
-    sf::Event event; // Инициализация объекта события
+    Event event; // Инициализация объекта события
     while (view->getWindow().pollEvent(event)) // Цикл, слушающих события
     {
-        if (event.type == sf::Event::Closed)
+        if (event.type == Event::Closed)
             view->getWindow().close();
 
-        this->checkDoodlerEvents();
     }
+}
+
+/// <summary>
+/// Отслеживание событий главного меню
+/// </summary>
+void GameController::checkMenuEvents()
+{
+    float posX = Mouse::getPosition(view->getWindow()).x;
+    float posY = Mouse::getPosition(view->getWindow()).y;
+
+    if (view->getPlayBtn()->checkMousePosition(posX, posY)) {
+        view->getPlayBtn()->setPlayBtnHover();
+        
+        if (Mouse::isButtonPressed(Mouse::Left))
+            model->initGame();
+    } else {
+        view->getPlayBtn()->setPlayBtnDefault();
+    }
+}
+
+void GameController::checkGameEvents()
+{
+    this->checkDoodlerEvents();
 }
 
 /// <summary>
@@ -68,6 +97,5 @@ void GameController::checkDoodlerEvents()
 /// </summary>
 void GameController::update()
 {
-    model->doodler.update(&model->platforms);
     model->update();
 }

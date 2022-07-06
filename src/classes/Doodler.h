@@ -14,6 +14,7 @@ class Doodler : public GraphicObject
 public:
 	Doodler();
 	Sprite getSprite();
+	Texture getTexture();
 	void setPosition(float posX, float posY);
 
 	void update(vector<Platform*>* platforms);
@@ -25,10 +26,14 @@ public:
 	float bottom();
 	float right();
 	float left();
+	float top();
 
 	float width();
+	float height();
 
 	float getSpeedY();
+
+	void initProperties();
 
 	// Скорость перемещения по Y
 	float speedY;
@@ -78,7 +83,6 @@ protected:
 	void changeDirectionRight();
 
 	void initSprite();
-	void initProperties();
 
 	bool checkCollisions(Platform *platform);
 	bool checkFallDirection();
